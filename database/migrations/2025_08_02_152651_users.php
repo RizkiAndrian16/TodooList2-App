@@ -13,7 +13,13 @@ return new class extends Migration
             $table->id();
             $table->string('username')->unique();
             $table->string('password');
+            $table->decimal('saldo', 15, 2)->default(0);
             $table->timestamps();
         });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('users');
     }
 };

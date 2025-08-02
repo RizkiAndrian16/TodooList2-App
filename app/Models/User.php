@@ -13,12 +13,16 @@ class User extends Authenticatable
     protected $fillable = [
         'username',
         'password',
+        'saldo',
     ];
-
 
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+
+    protected $casts = [
+        'saldo' => 'decimal:2',
     ];
 
     public function tasks()

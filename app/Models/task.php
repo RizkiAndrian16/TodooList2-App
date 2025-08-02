@@ -9,7 +9,17 @@ class Task extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'task', 'is_done'];
+    protected $fillable = [
+        'user_id',
+        'nama_pengeluaran',
+        'jumlah',
+        'is_done'
+    ];
+
+    protected $casts = [
+        'jumlah' => 'decimal:2',
+        'is_done' => 'boolean',
+    ];
 
     public function user()
     {

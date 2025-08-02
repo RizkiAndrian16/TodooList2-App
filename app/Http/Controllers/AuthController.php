@@ -24,6 +24,7 @@ class AuthController extends Controller
         User::create([
             'username' => $request->username,
             'password' => Hash::make($request->password),
+            'saldo' => 1000000, // Saldo awal 1 juta rupiah
         ]);
 
         return redirect()->route('login')->with('success', 'Registrasi berhasil, silakan login.');
