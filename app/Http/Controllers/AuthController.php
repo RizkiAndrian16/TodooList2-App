@@ -19,15 +19,24 @@ class AuthController extends Controller
         $request->validate([
             'username' => 'required|string|unique:users,username',
             'password' => 'required|string|min:8',
+        ], [
+            'username.required' => 'Username wajib diisi.',
+            'username.unique' => 'Username sudah digunakan, silakan pilih username lain.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal terdiri dari 8 karakter.',
         ]);
 
-        User::create([
+        $user = User::create([
             'username' => $request->username,
             'password' => Hash::make($request->password),
-            'saldo' => 1000000, // Saldo awal 1 juta rupiah
+            'saldo' => 0, // Akun baru mulai dari Rp 0
         ]);
 
-        return redirect()->route('login')->with('success', 'Registrasi berhasil, silakan login.');
+        // Auto-login pengguna yang baru saja mendaftar
+        Auth::login($user);
+        $request->session()->regenerate();
+
+        return redirect()->route('dashboard')->with('success', 'Pendaftaran berhasil! Selamat datang di ToDo List App, ' . $user->username . ' 👋');
     }
 
     public function showLogin()
